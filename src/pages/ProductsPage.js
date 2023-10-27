@@ -1,0 +1,92 @@
+import React, { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { useGetProductsQuery } from '../slices/productsApiSlice'
+import {
+  setAllProducts,
+  setGridView,
+  setListView,
+  setSortOption,
+  filterProducts,
+  setSearchFilter,
+  setPriceFilter,
+  setMinPriceFilter,
+} from '../slices/filterSlice'
+
+function ProductComponent() {
+  const dispatch = useDispatch()
+  const { data: products } = useGetProductsQuery()
+  const filterState = useSelector((state) => state.filter)
+
+  useEffect(() => {
+    if (products) {
+      dispatch(setAllProducts(products))
+    }
+  }, [products, dispatch])
+
+  // For sorting:
+  const handleSortChange = (e) => {
+    dispatch(setSortOption(e.target.value))
+    dispatch(filterProducts())
+  }
+
+  // For searching:
+  const handleSearchChange = (e) => {
+    dispatch(setSearchFilter(e.target.value))
+    dispatch(filterProducts())
+  }
+
+  // For view options:
+  const handleGridView = () => {
+    dispatch(setGridView())
+  }
+
+  const handleListView = () => {
+    dispatch(setListView())
+  }
+
+  return (
+    <div>
+      <div>
+        <input
+          type='text'
+          placeholder='Search products...'
+          onChange={handleSearchChange}
+        />
+        <select onChange={handleSortChange}>
+          <option value='price-lowest'>Price (Lowest)</option>
+          <option value='price-highest'>Price (Highest)</option>
+          <option value='name-a'>Name (A-Z)</option>
+          <option value='name-z'>Name (Z-A)</option>
+        </select>
+        <button onClick={handleGridView}>Grid View</button>
+        <button onClick={handleListView}>List View</button>
+      </div>
+      
+      <div>
+        {filterState.grid_view ? (
+          <div className='grid-view'>
+            {filterState.filtered_products.map((product) => (
+              <div key={product.id} className='product-card'>
+                <img src={product.img[0]} alt='' />
+                <h3>{product.title}</h3>
+                <p>{product.price}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div className='list-view'>
+            {filterState.filtered_products.map((product) => (
+              <div key={product.id} className='product-list-item'>
+                <img src={product.img[0]} alt='' />
+                <h3>{product.title}</h3>
+                <p>{product.price}</p>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+    </div>
+  )
+}
+
+export default ProductComponent
