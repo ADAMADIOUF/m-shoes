@@ -1,26 +1,13 @@
-// Sort.js
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { updateSort } from '../slices/filterSlice'
 
-const Sort = () => {
-  const dispatch = useDispatch()
-  const { sort } = useSelector((state) => state.filter)
-
+function Sort({ onSortChange }) {
   return (
-    <div>
-      <label htmlFor='sort'>Sort By</label>
-      <select
-        name='sort'
-        id='sort'
-        value={sort}
-        onChange={(e) => dispatch(updateSort(e.target.value))}
-      >
-        <option value='price-lowest'>Price (Lowest)</option>
-        <option value='price-highest'>Price (Highest)</option>
-        {/* Add other sorting options here */}
-      </select>
-    </div>
+    <select onChange={onSortChange}>
+      <option value='price-lowest'>Prix (le moins cher)</option>
+      <option value='price-highest'>Prix (le plus cher)</option>
+      <option value='name-a'>Nom (A-Z)</option>
+      <option value='name-z'>Nom (Z-A)</option>
+    </select>
   )
 }
 

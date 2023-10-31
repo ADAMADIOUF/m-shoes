@@ -1,11 +1,17 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useGetProductsQuery } from '../slices/productsApiSlice'
 import Error from '../components/Error'
 import Loading from '../components/Loading'
 
 import CarouselProduct from './CarouselProduct'
+import { useLocation } from 'react-router-dom'
 
 const NuPieds = () => {
+  const location = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location])
+
   const { data: products, isLoading: loading, error } = useGetProductsQuery()
 
   if (loading) {

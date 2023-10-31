@@ -8,11 +8,19 @@ import {
   setSortOption,
   filterProducts,
   setSearchFilter,
-  setPriceFilter,
-  setMinPriceFilter,
 } from '../slices/filterSlice'
+import GridView from '../components/GridView'
+import ListView from '../components/ListView'
+import Sort from '../components/Sort'
+import { FaList, FaTh } from 'react-icons/fa'
+import { useLocation } from 'react-router-dom'
 
 function ProductComponent() {
+    const location = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location])
+
   const dispatch = useDispatch()
   const { data: products } = useGetProductsQuery()
   const filterState = useSelector((state) => state.filter)
@@ -23,19 +31,16 @@ function ProductComponent() {
     }
   }, [products, dispatch])
 
-  // For sorting:
   const handleSortChange = (e) => {
     dispatch(setSortOption(e.target.value))
     dispatch(filterProducts())
   }
 
-  // For searching:
   const handleSearchChange = (e) => {
     dispatch(setSearchFilter(e.target.value))
     dispatch(filterProducts())
   }
 
-  // For view options:
   const handleGridView = () => {
     dispatch(setGridView())
   }
@@ -45,44 +50,27 @@ function ProductComponent() {
   }
 
   return (
-    <div>
+    <div className='products-page section-center'>
       <div>
         <input
           type='text'
-          placeholder='Search products...'
+          placeholder='Rechercher des produits...'
           onChange={handleSearchChange}
         />
-        <select onChange={handleSortChange}>
-          <option value='price-lowest'>Price (Lowest)</option>
-          <option value='price-highest'>Price (Highest)</option>
-          <option value='name-a'>Name (A-Z)</option>
-          <option value='name-z'>Name (Z-A)</option>
-        </select>
-        <button onClick={handleGridView}>Grid View</button>
-        <button onClick={handleListView}>List View</button>
+        <Sort onSortChange={handleSortChange} />
+        <button onClick={handleGridView}>
+          <FaTh /> 
+        </button>{' '}
+        <button onClick={handleListView}>
+          <FaList /> 
+        </button>
       </div>
-      
+
       <div>
         {filterState.grid_view ? (
-          <div className='grid-view'>
-            {filterState.filtered_products.map((product) => (
-              <div key={product.id} className='product-card'>
-                <img src={product.img[0]} alt='' />
-                <h3>{product.title}</h3>
-                <p>{product.price}</p>
-              </div>
-            ))}
-          </div>
+          <GridView products={filterState.filtered_products} />
         ) : (
-          <div className='list-view'>
-            {filterState.filtered_products.map((product) => (
-              <div key={product.id} className='product-list-item'>
-                <img src={product.img[0]} alt='' />
-                <h3>{product.title}</h3>
-                <p>{product.price}</p>
-              </div>
-            ))}
-          </div>
+          <ListView products={filterState.filtered_products} />
         )}
       </div>
     </div>

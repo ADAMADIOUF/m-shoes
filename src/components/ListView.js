@@ -1,15 +1,17 @@
-// ListView.js
 import React from 'react'
+import { Link } from 'react-router-dom'
 
-const ListView = ({ products }) => {
+function ListView({ products }) {
   return (
     <div className='list-view'>
       {products.map((product) => (
-        <div key={product.id} className='product-item'>
+        <div key={product.id} className='product-list-item'>
           <img src={product.img[0]} alt='' />
-          <h2>{product.title}</h2>
-          <p>{product.price}</p>
-          {/* Add other product details as needed */}
+          <h3>{product.title}</h3>
+          <p>{product.price}CFA</p>
+          <Link to={`/product/${product.id}`}>
+            <button className='btn'>choix des options</button>
+          </Link>
         </div>
       ))}
     </div>

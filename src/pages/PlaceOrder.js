@@ -5,90 +5,91 @@ import { Link, useNavigate } from 'react-router-dom'
 import { clearCartItems } from '../slices/cartSlice'
 
 const PlaceOrder = () => {
-   const cart = useSelector((state) => state.cart)
-   const { cartItems } = cart
-   const totalPrice = cartItems.reduce(
-     (total, item) => total + item.price * item.qty,
-     0
-   )
-   const [formData, setFormData] = useState({
-     name: '',
-     email: '',
-     country: '',
-     phoneNumber: '',
-   })
+  const [successMessage, setSuccessMessage] = useState('')
+  const [errorMessages, setErrorMessages] = useState({})
+  const [createOrder] = useCreateOrderMutation()
+  const dispatch = useDispatch()
 
-   const [successMessage, setSuccessMessage] = useState('')
-   const [errorMessages, setErrorMessages] = useState({})
-   const [createOrder] = useCreateOrderMutation()
-   const dispatch = useDispatch()
+  const cart = useSelector((state) => state.cart)
+  const { cartItems } = cart
+  const totalPrice = cartItems.reduce(
+    (total, item) => total + item.price * item.qty,
+    0
+  )
+  const handleChange = (e) => {
+    const { name, value } = e.target
+    setFormData({
+      ...formData,
+      [name]: value,
+    })
 
-   
+    setErrorMessages({
+      ...errorMessages,
+      [name]: '',
+    })
+  }
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    country: '',
+    phoneNumber: '',
+  })
 
-   const handleChange = (e) => {
-     const { name, value } = e.target
-     setFormData({
-       ...formData,
-       [name]: value,
-     })
+  
 
-     setErrorMessages({
-       ...errorMessages,
-       [name]: '',
-     })
-   }
+  const handleSubmit = async (e) => {
+    e.preventDefault()
+    const requiredFields = ['name', 'email', 'country', 'phoneNumber']
+    const newErrorMessages = {}
+    let hasError = false
 
-   const handleSubmit = async (e) => {
-     e.preventDefault()
-     const requiredFields = ['name', 'email', 'country', 'phoneNumber']
-     const newErrorMessages = {}
-     let hasError = false
+    requiredFields.forEach((field) => {
+      if (!formData[field]) {
+        newErrorMessages[field] = 'This field is required'
+        hasError = true
+      }
+    })
 
-     requiredFields.forEach((field) => {
-       if (!formData[field]) {
-         newErrorMessages[field] = 'This field is required'
-         hasError = true
-       }
-     })
+    if (hasError) {
+      setErrorMessages(newErrorMessages)
+      return
+    }
 
-     if (hasError) {
-       setErrorMessages(newErrorMessages)
-       return
-     }
+    try {
+      const orderData = {
+        name: formData.name,
+        email: formData.email,
+        country: formData.country,
+        phoneNumber: formData.phoneNumber,
+        titles: cartItems.map((item) => item.title),
+        totalPrice,
+      }
 
-     try {
-       const orderData = {
-         name: formData.name,
-         email: formData.email,
-         country: formData.country,
-         phoneNumber: formData.phoneNumber,
-         titles: cartItems.map((item) => item.title),
-         totalPrice,
-       }
+      const response = await createOrder(orderData).unwrap()
+      console.log('Reservation sent successfully:', response)
 
-       const response = await createOrder(orderData).unwrap()
-       console.log('Reservation sent successfully:', response)
+      setSuccessMessage('Réservation envoyée avec succès.')
 
-       setSuccessMessage('Réservation envoyée avec succès.')
+      setFormData({
+        name: '',
+        email: '',
+        country: '',
+        phoneNumber: '',
+      })
 
-       // Clear the form fields after successful submission
-       setFormData({
-         name: '',
-         email: '',
-         country: '',
-         phoneNumber: '',
-       })
+      setTimeout(() => {
+        setSuccessMessage('')
+        dispatch(clearCartItems())
+      }, 3000)
+    } catch (error) {
+      console.error("Erreur lors de l'envoi de la réservation:", error)
+      setErrorMessages({
+        form: 'Failed to send reservation. Please try again later.',
+      })
+    }
+  }
 
-       // Hide the form and clear cart items after 3 seconds
-       setTimeout(() => {
-         setSuccessMessage('')
-         
-       dispatch(clearCartItems())
-       }, 3000)
-     } catch (error) {
-       console.error("Erreur lors de l'envoi de la réservation:", error)
-     }
-   }
+  
 
   return (
     <div className='place-order section-center'>
@@ -152,19 +153,19 @@ const PlaceOrder = () => {
                   )}
                 </div>
                 <div className='order-input'>
-  <label htmlFor='country'>Country :</label>
-  <input
-    type='text'
-    id='country'
-    name='country'
-    value={formData.country}  
-    onChange={handleChange}
-    required
-  />
-  {errorMessages.country && (  
-    <p className='error-message'>{errorMessages.country}</p>
-  )}
-</div>
+                  <label htmlFor='country'>Country :</label>
+                  <input
+                    type='text'
+                    id='country'
+                    name='country'
+                    value={formData.country}
+                    onChange={handleChange}
+                    required
+                  />
+                  {errorMessages.country && (
+                    <p className='error-message'>{errorMessages.country}</p>
+                  )}
+                </div>
                 {cartItems.map((item, index) => (
                   <div className='order-input' key={index}>
                     <label htmlFor={`title-${index}`}>nom du produit:</label>

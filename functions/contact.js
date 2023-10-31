@@ -1,5 +1,8 @@
 const dotenv = require('dotenv')
 dotenv.config()
+console.log('AIRTABLE_API_KEY:', process.env.AIRTABLE_API_KEY)
+console.log('AIRTABLE_BASE:', process.env.AIRTABLE_BASE)
+console.log('AIRTABLE_TABLE:', process.env.AIRTABLE_TABLE)
 
 const Airtable = require('airtable-node')
 const airtable = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
@@ -9,36 +12,41 @@ const airtable = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
 const nodemailer = require('nodemailer')
 
 const transporter = nodemailer.createTransport({
-  service: 'gmail',
+  service: 'Gmail',
   auth: {
-    type: 'OAuth2',
     user: 'adamadiouf2017@gmail.com', // Your Gmail address
-    clientId: process.env.OAUTH_CLIENT_ID,
-    clientSecret: process.env.OAUTH_CLIENT_SECRET,
-    refreshToken: process.env.OAUTH_REFRESH_TOKEN,
+    pass: process.env.EMAIL_PASSPORT,
   },
 })
 
 exports.handler = async (event, context, cb) => {
   try {
+    // Parse the form data from the event object (modify this part based on your form submission)
     const formData = JSON.parse(event.body)
     const { name, email, message } = formData
 
+    // Check if 'email' is a valid recipient email address
     if (email && isValidEmail(email)) {
       const mailOptions = {
-        from: 'adamadiouf2017@gmail.com',
+        from: 'your-email@gmail.com',
         to: email,
         subject: 'Your Subject Here',
         text: `Hello I'am ${name},\n\nYour reservation details:\nMessage: ${message}\n`,
       }
 
-      const info = await transporter.sendMail(mailOptions)
-      console.log('Email sent:', info.response)
+      // Send the email
+      transporter.sendMail(mailOptions, (error, info) => {
+        if (error) {
+          console.log('Error sending email:', error)
+        } else {
+          console.log('Email sent:', info.response)
+        }
+      })
     } else {
       console.log('Invalid or missing email address')
     }
 
-     await airtable.create({ fields: { name, email, message } });
+     await airtable.create({ fields: { name, email, message } })
 
     return {
       statusCode: 200,

@@ -6,11 +6,11 @@ import Loading from '../components/Loading'
 import CarouselProduct from './CarouselProduct'
 import { useLocation } from 'react-router-dom'
 
-const Babouches = () => {
-  const location = useLocation()
-  useEffect(() => {
-    window.scrollTo(0, 0)
-  }, [location])
+const Villes = () => {
+ const location = useLocation()
+ useEffect(() => {
+   window.scrollTo(0, 0)
+ }, [location])
 
   const { data: products, isLoading: loading, error } = useGetProductsQuery()
 
@@ -24,17 +24,17 @@ const Babouches = () => {
 
   // Filter products by category
   const featuredProducts = products.filter(
-    (item) => item.categories === 'babouches'
+    (item) => item.categories === 'ville'
   )
 
   return (
     <div className='arrival section-center'>
       <div className='title'>
-        <h3>babouches</h3>
+        <h3>chaussures de ville</h3>
       </div>
       <CarouselProduct products={featuredProducts} />
     </div>
   )
 }
 
-export default Babouches
+export default Villes
