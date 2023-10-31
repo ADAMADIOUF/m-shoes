@@ -38,10 +38,10 @@ exports.handler = async (event, context, cb) => {
   const mailOptions = {
     from: process.env.EMAIL_EMAIL,
     to: 'terangafishservice01@gmail.com',
-    subject: `Contact form submission from ${name}`,
-    text: `Name: ${name}\nEmail: ${email}\nCountry: ${country}\nTitles: ${titles.join(
+    subject: `Soumission du formulaire de contact de la part de ${name}`,
+    text: `Nom et Prenom: ${name}\nEmail: ${email}\nPays: ${country}\nNom du Produit acheter: ${titles.join(
       ', '
-    )}\nTotal Price: ${totalPrice}\nPhone Number: ${phoneNumber}`,
+    )}\nPrix Total: ${totalPrice}\nNumero de telephone: ${phoneNumber}`,
   }
 
   try {
