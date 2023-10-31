@@ -4,6 +4,7 @@ const Banner = () => {
   return (
     <div className='banner section-center'>
       <div className='banner-container'>
+        
         <article className='banner-content'>
           <h1>Bienvenue sur Notre Site</h1>
           <p>
@@ -20,11 +21,9 @@ const Banner = () => {
             M-Shoes !
           </p>
         </article>
-        <article className="banner-img">
-         <img src={a} alt="" />
-         <div className="banner-img-content">
-
-         </div>
+        <article className='banner-img'>
+          <img src={a} alt='' />
+          <div className='banner-img-content'></div>
         </article>
       </div>
     </div>

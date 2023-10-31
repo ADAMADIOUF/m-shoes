@@ -68,7 +68,7 @@ const PlaceOrder = () => {
       const response = await createOrder(orderData).unwrap()
       console.log('Reservation sent successfully:', response)
 
-      setSuccessMessage('Réservation envoyée avec succès.')
+      setSuccessMessage('commande envoyée avec succès.')
 
       setFormData({
         name: '',
@@ -139,7 +139,7 @@ const PlaceOrder = () => {
                   )}
                 </div>
                 <div className='order-input'>
-                  <label htmlFor='number'>phone number :</label>
+                  <label htmlFor='number'>NUMÉRO DE TÉLÉPHONE :</label>
                   <input
                     type='text'
                     id='number'
@@ -153,7 +153,7 @@ const PlaceOrder = () => {
                   )}
                 </div>
                 <div className='order-input'>
-                  <label htmlFor='country'>Country :</label>
+                  <label htmlFor='country'>PAYS :</label>
                   <input
                     type='text'
                     id='country'

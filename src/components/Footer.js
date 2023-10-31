@@ -43,10 +43,8 @@ const Footer = () => {
         </article>
         <article className='footer-content'>
           <h3>notre boutique</h3>
-          <p>
-            keur massar:entre la Pharmacie Bourguiba et la Coris Bank
-            International
-          </p>
+          <p>keur massar</p>
+          <p>Parcelles Assainies unité 6 à coté du rond point case</p>
           <p>Tel:+221 7777 30878</p>
           <p>Tel:+221 7833 12735</p>
         </article>

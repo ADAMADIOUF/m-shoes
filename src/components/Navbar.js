@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Link as RouterLink, useLocation } from 'react-router-dom'
+import { Link, Link as RouterLink, useLocation } from 'react-router-dom'
 import { FaBars, FaShoppingCart, FaTimes } from 'react-icons/fa'
 import { animateScroll as scroll } from 'react-scroll'
 import logo from "../assets/logo.png"
@@ -165,9 +165,11 @@ const { cartItems } = cart
               </li>
             )}
           </ul>
-          <span>
-            <FaShoppingCart />
-            Panier
+          <span className='cart'>
+            <Link to={`/cart`}>
+              <FaShoppingCart />
+              Panier
+            </Link>
             {cartItems.length > 0 && (
               <span
                 style={{

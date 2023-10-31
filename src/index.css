@@ -178,7 +178,6 @@ p {
 
 
 .btn {
-  
   margin: 0 auto;
   background-color:transparent; 
   color: var(--clr-white); 
@@ -197,7 +196,9 @@ text-transform: uppercase;
 .btn:hover {
   background-color: var(--clr-hover);
 }
-
+.btn-shop a{
+  color: var(--clr-white);
+}
 .page-100 {
   min-height: calc(100vh - 10rem);
   padding: 5rem 0;
@@ -306,8 +307,15 @@ gap: 2rem;}
  
 }
 
-
 .dropdown:hover .dropdown-menu {
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+}
+
+
+
+@media (min-width:992px) {
+  .dropdown:hover .dropdown-menu {
   display: grid;
   grid-template-columns: repeat(4,1fr);
 }
@@ -319,6 +327,7 @@ gap: 2rem;}
 }
 
 
+}
 
 /* Slider */
   .slider {
@@ -506,12 +515,23 @@ gap: 2rem;}
   background-size: cover;
   height: 600px;
 }
+.overlay {
+  position: absolute;
+  content: "";
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.6);
+  z-index: 2;
+}
 .header-about-content{
   position: absolute;
   color: var(--clr-white);
   top: 25%;
   left: 5rem;
   max-width: 45rem;
+  z-index: 5;
 }
 .header-about-content h3{
   font-size: 2rem;
@@ -900,4 +920,46 @@ transform: scale(1.05);
 }
 
 
+}
+
+.second-banner {
+  position: relative;
+  background: url("./assets/b2.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 100%;
+  color: var(--clr-white);
+  
+}
+.overlay-1 {
+  position: absolute;
+  content: "";
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.8);
+  z-index: 2;
+}
+.container-second-banner .article p{
+  z-index: 8;
+}
+.container-second-banner {
+  position: relative;
+  z-index: 3;
+  padding: 40px; 
+}
+
+.second-banner-content h3 {
+  font-size: 3rem; 
+  
+}
+
+.second-banner-content p {
+  font-size: 1.2rem; 
+ 
+}
+.cart a{
+  color: var(--clr-black);
 }

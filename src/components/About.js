@@ -2,6 +2,7 @@ import React from 'react'
 import AboutHeader from './AboutHeader'
 import a from "../assets/about.png"
 import b from "../assets/about.mp4"
+import { Link } from 'react-router-dom'
 const About = () => {
   return (
     <div className='about'>
@@ -91,7 +92,9 @@ const About = () => {
             </p>
           </div>
           <div>
-            <button className='btn'>Faire mon Shopping</button>
+            <button className='btn btn-shop'>
+              <Link to={`/boutique`}>Faire mon Shopping</Link>
+            </button>
           </div>
         </div>
       </div>

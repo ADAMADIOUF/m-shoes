@@ -7,6 +7,7 @@ import World from './World'
 import Delivery from './Delivery'
 import Arrival from '../pages/Arrival'
 import Featured from '../pages/Featured'
+import LastBanner from './LastBanner'
 
 
 const Home = () => {
@@ -19,6 +20,7 @@ const Home = () => {
       <SecondBanner/>
       <Featured/>
       <World/>
+      <LastBanner/>
     </div>
   )
 }

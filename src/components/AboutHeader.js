@@ -28,6 +28,7 @@ const AboutHeader = () => {
  }, [])
   return (
     <div className={animate ? 'image-animation about-header' : ''}>
+      <div className='overlay'></div>
       <div className='header-about-content'>
         <h3>M-Shoes : La Mode à Vos Pieds</h3>
         <p>

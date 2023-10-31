@@ -1,13 +1,18 @@
-import React, {  useState } from 'react'
+import React, {  useEffect, useState } from 'react'
 
 import Error from '../components/Error'
 import Loading from '../components/Loading'
-import { useNavigate, useParams } from 'react-router-dom'
+import { useLocation, useNavigate, useParams } from 'react-router-dom'
 import { useGetProductDetailsQuery } from '../slices/productsApiSlice'
 import { useDispatch } from 'react-redux'
 import { addToCart } from '../slices/cartSlice'
 
 const SingleShop = () => {
+  const location = useLocation()
+  useEffect(() => {
+    window.scrollTo(0, 0)
+  }, [location])
+
  const navigate = useNavigate()
  const dispatch = useDispatch()
   const { id: productId } = useParams()
