@@ -3,12 +3,16 @@ import React, { useState } from 'react'
 import { useGetProductsQuery } from '../slices/productsApiSlice';
 
 const Search = () => {
- const [searchTerm, setSearchTerm] = useState('');
-  const { data: products, isLoading, isError } = useGetProductsQuery(searchTerm);
+  const [searchTerm, setSearchTerm] = useState('')
+  const { data: products, isLoading, isError } = useGetProductsQuery(searchTerm)
+
+  // Search.js
 
   const handleSearchChange = (e) => {
-    setSearchTerm(e.target.value);
-  };
+    const newSearchTerm = e.target.value
+    setSearchTerm(newSearchTerm)
+    console.log('Search Term:', newSearchTerm) // Debugging line
+  }
 
   return (
     <div className='search'>

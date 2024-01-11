@@ -38,7 +38,7 @@ const { cartItems } = cart
             <div className='menu-icon' onClick={toggleMenu}>
               {isMenuOpen ? <FaTimes /> : <FaBars />}
             </div>
-            <li>
+            <>
               <RouterLink
                 to='/'
                 onClick={() => {
@@ -51,7 +51,7 @@ const { cartItems } = cart
                     M</span>Shoes</h3>
                 </div>
               </RouterLink>
-            </li>
+            </>
           </div>
           <ul className={`nav-links ${isMenuOpen ? 'active' : ''}`}>
             <li className='nav-item'>
