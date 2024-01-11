@@ -4,6 +4,7 @@ import { FaBars, FaShoppingCart, FaTimes } from 'react-icons/fa'
 import { animateScroll as scroll } from 'react-scroll'
 import logo from "../assets/logo.png"
 import {  useSelector } from 'react-redux'
+import Search from './Search'
 
 const Navbar = () => {
   const location = useLocation()
@@ -46,7 +47,8 @@ const { cartItems } = cart
                 }}
               >
                 <div className='logo'>
-                  <img src={logo} alt='' />
+                  <h3><span>
+                    M</span>Shoes</h3>
                 </div>
               </RouterLink>
             </li>
@@ -165,6 +167,7 @@ const { cartItems } = cart
               </li>
             )}
           </ul>
+          <Search/>
           <span className='cart'>
             <Link to={`/cart`}>
               <FaShoppingCart />

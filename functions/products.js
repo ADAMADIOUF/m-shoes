@@ -6,8 +6,17 @@ const airtable = new Airtable({ apiKey: process.env.AIRTABLE_API_KEY })
   .table(process.env.AIRTABLE_TABLE)
 
 exports.handler = async (event, context, cb) => {
+  const query = event.queryStringParameters.query
+  let filter = {}
+
+  if (query) {
+    filter = {
+      filterByFormula: `SEARCH("${query}", {title})`,
+    }
+  }
+
   try {
-    const response = await airtable.list({ maxRecords: 200 })
+    const response = await airtable.list({ maxRecords: 200, ...filter })
     // ...
 
     const products = response.records.map((product) => {

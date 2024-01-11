@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import sliderData from '../dataSlider'
 import { gsap } from 'gsap'
-import { PixiPlugin } from 'gsap/PixiPlugin'
-gsap.registerPlugin(PixiPlugin)
+
 const Slider = ({ intervalTime }) => {
   const [activeSlide, setActiveSlide] = useState(0)
 
@@ -12,46 +11,36 @@ const Slider = ({ intervalTime }) => {
     }, intervalTime)
 
     return () => clearInterval(interval)
-  }, [intervalTime])
-const [animate, setAnimate] = useState(false)
+  }, [intervalTime, activeSlide])
 
-useEffect(() => {
-  setAnimate(true)
+  useEffect(() => {
+    const tl = gsap.timeline({ defaults: { duration: 1, ease: 'power2.out' } })
 
-  
-  const titleAnimation = gsap.fromTo(
-    '.header-content h2',
-    { opacity: 0, scale: 0 },
-    { opacity: 1, scale: 1, duration: 1 }
-  )
-  const descriptionAnimation = gsap.fromTo(
-    '.header-content p',
-    { opacity: 0, scale: 0 },
-    { opacity: 1, scale: 1, duration: 1 }
-  )
+    tl.fromTo(
+      '.header-content h2',
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1 }
+    ).fromTo(
+      '.header-content p',
+      { opacity: 0, scale: 0 },
+      { opacity: 1, scale: 1 },
+      '-=0.5'
+    )
+  }, [activeSlide])
 
-  
-  const tl = gsap.timeline()
-
-  tl.add(titleAnimation, 0) 
-  tl.add(descriptionAnimation, 0.5) 
-
-  
-  tl.play()
-}, [])
   return (
-    <div className={animate ? 'image-animation slider' : ''}>
+    <div className='slider'>
       <div className='slides-container'>
         {sliderData.map((slide, index) => (
           <div
             key={index}
             className={`slide ${index === activeSlide ? 'active' : ''}`}
           >
-            <img src={slide.img} alt='' className='slide-image' />
+            <img src={slide.img} alt={slide.title} className='slide-image' />
             <div className='header'>
               <div className='header-content'>
                 <h2>{slide.title}</h2>
-                <p>{slide.desc}</p>
+                
               </div>
             </div>
           </div>
